@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <filter>
+        <filter-name>ITAM</filter-name>
+        <filter-class>com.osmoticweb.gzipfilter.GZIP2WayFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ITAM</filter-name>
+        <url-pattern>/ITAM</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <description>JAX-WS endpoint - SapphireIMS WebService</description>
+        <display-name>ITAM</display-name>
+        <servlet-name>ITAM</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>Automation</servlet-name>
+        <servlet-class>com.tkd.automation.Automation</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ITAM</servlet-name>
+        <url-pattern>/ITAM</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Automation</servlet-name>
+        <url-pattern>/Automation</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+             30
+         </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+ <security-constraint>
+	 <web-resource-collection>
+	<web-resource-name>HtmlAdaptor</web-resource-name>
+	<description>assystITOM Web Service</description>
+	<url-pattern>/*</url-pattern>
+	<http-method>GET</http-method>
+	<http-method>POST</http-method>
+	 </web-resource-collection>
+	 <auth-constraint>
+	 <role-name>gatewayAdmin</role-name>
+	</auth-constraint>
+	 </security-constraint>
+	 <login-config>
+	 <auth-method>BASIC</auth-method>
+	 <realm-name>assystITOM Web Service</realm-name>
+	 </login-config>
+	 <security-role>
+	 <role-name>gatewayAdmin</role-name>
+	 </security-role>
+
+
+</web-app>
