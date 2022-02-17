@@ -34,6 +34,11 @@ function getCertificate(){
 
 		
 		#$URLITOM = "Hardcoded URL for setting in specific customer servers, comment out line bellow if using this setting instead"
+		Write-Host "`nReady to attempt to download your SSL certificate"
+		Write-Host "`nverify in a chrome browser from this machine that the certificate authority listed is correct`n"
+		Write-Host "`nthen proceed with the following..."
+		
+		
 		$URLITOM = Read-Host "`nType your full itom central server public URL. `nExample https://ifs-itom.saas.axiossystems.com/assystITOM`n"
 		$webRequest = [Net.WebRequest]::Create($URLITOM)
 		try { $webRequest.GetResponse() } catch {}
@@ -137,7 +142,7 @@ function performChange(){
 		Start-Service SapphireIMS
 		
 		Write-Host "`nServer should now be in deploying state, please wait some minutes and check the server"
-
+		PAUSE
 	}
 
 	#If missing cacert.cer or the ITOM install does not exist / can't be detected.
@@ -148,11 +153,14 @@ function performChange(){
 		Write-Host "Once you have placed the file, rerun this script"
 		Write-Host "`nif you do not have the cacert.cer file, please follow the ReadMe instructions"
 		Write-Host "this script should only be executed in servers that contain an ITOM installation"
-		
+		PAUSE
 		
 	}
 
 	Read-Host "`nPress enter to exit..."
+	
+	
+	
 	
 	
 }

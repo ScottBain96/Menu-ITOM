@@ -3,8 +3,6 @@ Add-Type -assembly System.Windows.Forms
 $main_form = New-Object System.Windows.Forms.Form
 $main_form.Text ='ITOM additional features launcher'
 $main_form.BackColor = "#ffffff"
-#$main_form.Height = 200
-#$main_form.Width = 450
 $main_form.StartPosition="CenterScreen"
 $main_form.Font = 'Microsoft Sans Serif,13'
 $main_form.AutoSize = $true
@@ -39,7 +37,7 @@ $btnSecureITAM                   = New-Object system.Windows.Forms.Button
 $btnSecureITAM.BackColor         = "#82b0fa"
 $btnSecureITAM.text              = "Secure ITAM WebService"
 $btnSecureITAM.width             = 90
-$btnSecureITAM.height            = 90
+$btnSecureITAM.height            = 60
 $btnSecureITAM.location          = New-Object System.Drawing.Point(10,100)
 $btnSecureITAM.Font              = 'Microsoft Sans Serif,10'
 $btnSecureITAM.ForeColor         = "#ffffff"
@@ -59,9 +57,9 @@ $btnSecureITAM.TabStop=$false
 ##Second BUTTON - TrustStore###
 $btnTrustStore                   = New-Object system.Windows.Forms.Button
 $btnTrustStore.BackColor         = "#82b0fa"
-$btnTrustStore.text              = "Add certificate to Java truststore"
+$btnTrustStore.text              = "Add SSL to TrustStore"
 $btnTrustStore.width             = 90
-$btnTrustStore.height            = 90
+$btnTrustStore.height            = 60
 $btnTrustStore.location          = New-Object System.Drawing.Point(110,100)
 $btnTrustStore.Font              = 'Microsoft Sans Serif,10'
 $btnTrustStore.ForeColor         = "#ffffff"
@@ -76,9 +74,9 @@ $btnTrustStore.TabStop=$false
 ##Third BUTTON - Agent Password###
 $btnAgentPwd                   = New-Object system.Windows.Forms.Button
 $btnAgentPwd.BackColor         = "#82b0fa"
-$btnAgentPwd.text              = "Change Agent WebService password"
+$btnAgentPwd.text              = "Secure Agent WebService"
 $btnAgentPwd.width             = 90
-$btnAgentPwd.height            = 90
+$btnAgentPwd.height            = 60
 $btnAgentPwd.location          = New-Object System.Drawing.Point(210,100)
 $btnAgentPwd.Font              = 'Microsoft Sans Serif,10'
 $btnAgentPwd.ForeColor         = "#ffffff"
@@ -95,7 +93,7 @@ $btnAllSecurityConfig                   = New-Object system.Windows.Forms.Button
 $btnAllSecurityConfig.BackColor         = "#82b0fa"
 $btnAllSecurityConfig.text              = "PlaceHolder"
 $btnAllSecurityConfig.width             = 90
-$btnAllSecurityConfig.height            = 90
+$btnAllSecurityConfig.height            = 60
 $btnAllSecurityConfig.location          = New-Object System.Drawing.Point(310,100)
 $btnAllSecurityConfig.Font              = 'Microsoft Sans Serif,10'
 $btnAllSecurityConfig.ForeColor         = "#ffffff"
@@ -126,11 +124,7 @@ $btnAllSecurityConfig.Add_Click({ startAllSecurityConfig })
 
 $pathScripts="$pwd\scripts\"
 
-
-$pathScripts
-
-
-
+Write-Host "Starting UI...`nIf UI is not loading, you can still run the scripts manually"
 
 function startSecureITAMScript{
 	
