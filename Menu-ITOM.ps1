@@ -3,10 +3,15 @@ Add-Type -assembly System.Windows.Forms
 $main_form = New-Object System.Windows.Forms.Form
 $main_form.Text ='ITOM additional features launcher'
 $main_form.BackColor = "#ffffff"
+#$main_form.BackColor = "Black"
+$main_form.ForeColor= "Black"
+
+
 $main_form.StartPosition="CenterScreen"
 $main_form.Font = 'Microsoft Sans Serif,13'
 $main_form.AutoSize = $true
 $main_form.location = New-Object System.Drawing.Point(40,20)
+
 
 
 

@@ -1,0 +1,1 @@
+INSERT INTO `test`.`new_table` (`test1`) VALUES ('25');

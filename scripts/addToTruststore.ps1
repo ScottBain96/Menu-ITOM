@@ -142,7 +142,7 @@ function performChange(){
 		Start-Service SapphireIMS
 		
 		Write-Host "`nServer should now be in deploying state, please wait some minutes and check the server"
-		PAUSE
+
 	}
 
 	#If missing cacert.cer or the ITOM install does not exist / can't be detected.
