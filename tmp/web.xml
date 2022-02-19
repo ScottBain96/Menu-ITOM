@@ -48,7 +48,7 @@
 	<http-method>POST</http-method>
 	 </web-resource-collection>
 	 <auth-constraint>
-	 <role-name>itamAPIAdmin</role-name>
+	 <role-name>asdAdmin</role-name>
 	</auth-constraint>
 	 </security-constraint>
 	 <login-config>
@@ -56,7 +56,7 @@
 	 <realm-name>assystITOM Web Service</realm-name>
 	 </login-config>
 	 <security-role>
-	 <role-name>itamAPIAdmin</role-name>
+	 <role-name>asdAdmin</role-name>
 	 </security-role>
 
 

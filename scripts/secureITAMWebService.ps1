@@ -38,8 +38,7 @@ $UserNameDefined=Read-Host "`nChoose a username (sapphire is reserved, can't be 
 	if($UserNameDefined -ne "sapphire"){
 		
 		$checkRequirement++
-		$checkRequirement
-		
+
 	} 
 	
 	else {
@@ -59,11 +58,14 @@ $UserRoleDefined=$UserNameDefined+"Admin"
 
 
 
-$credToConvert = Read-host 'enter password' -AsSecureString
+$credToConvert = Read-host "`nEnter password" -AsSecureString
 $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($credToConvert)
 $valuepwd = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+$ENCODED = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($valuepwd))
 
-$valuepwd
+
+Write-Host "`nEncoded password is $encoded "
+
 
 
 #Replacing lines 51 and 59 of the web.xml to include the correct user security Role. (positions are 1 less due to being array)
@@ -128,7 +130,7 @@ Write-Host "`nEnter Credentials configured when prompted (user will be $UserName
 
 
 
-$cred = Get-Credential
+$cred = Get-Credential $UserNameDefined
 
 #Not handling errors as they are helpful for the user to understand why it failed, e.g incorrect auth or not reachable.
 

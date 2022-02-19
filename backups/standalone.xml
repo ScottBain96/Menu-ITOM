@@ -310,7 +310,7 @@
         <subsystem xmlns="urn:jboss:domain:core-management:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:5.0">
             <datasources>
-                <datasource jta="true" jndi-name="java:/MySqlIMSMSP" pool-name="MySqlIMSMSP" enabled="true" use-java-context="true" use-ccm="true">
+                <datasource jta="true" jndi-name="java:/MySqlIMS" pool-name="MySqlIMS" enabled="true" use-java-context="true" use-ccm="true">
                     <connection-url>jdbc:mysql://localhost:3306/ims?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true</connection-url>
                     <driver>com.mysql</driver>
                     <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
@@ -348,31 +348,6 @@
                     </pool>
                     <security>
                         <security-domain>imsagentsecurity</security-domain>
-                    </security>
-                    <validation>
-                        <check-valid-connection-sql>select 1</check-valid-connection-sql>
-                    </validation>
-                    <timeout>
-                        <blocking-timeout-millis>50000</blocking-timeout-millis>
-                        <idle-timeout-minutes>15</idle-timeout-minutes>
-                    </timeout>
-                    <statement>
-                        <track-statements>false</track-statements>
-                    </statement>
-                </datasource>
-                <datasource jta="true" jndi-name="java:/ifs" pool-name="ifs" enabled="true" use-java-context="true" use-ccm="true">
-                    <connection-url>jdbc:mysql://localhost:3306/ifs?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true</connection-url>
-                    <driver>com.mysql</driver>
-                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
-                    <pool>
-                        <min-pool-size>10</min-pool-size>
-                        <max-pool-size>100</max-pool-size>
-                        <prefill>true</prefill>
-                        <use-strict-min>true</use-strict-min>
-                        <flush-strategy>FailingConnectionOnly</flush-strategy>
-                    </pool>
-                    <security>
-                        <security-domain>imswebsecurity</security-domain>
                     </security>
                     <validation>
                         <check-valid-connection-sql>select 1</check-valid-connection-sql>

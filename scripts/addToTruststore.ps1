@@ -39,7 +39,7 @@ function getCertificate(){
 		Write-Host "`nthen proceed with the following..."
 		
 		
-		$URLITOM = Read-Host "`nType your full itom central server public URL. `nExample https://ifs-itom.saas.axiossystems.com/assystITOM`n"
+		$URLITOM = Read-Host "`nType your full itom central server public URL.`n `nExample https://ifs-itom.saas.axiossystems.com/assystITOM`n`n"
 		$webRequest = [Net.WebRequest]::Create($URLITOM)
 		try { $webRequest.GetResponse() } catch {}
 		$cert = $webRequest.ServicePoint.Certificate

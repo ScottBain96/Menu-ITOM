@@ -53,19 +53,30 @@ $btnSecureITAM.TabStop=$false
 
 
 
-#$btnSecureITAM.FlatStyle = "Flat"
-#$btnSecureITAM.FlatAppearance.Bordersize=10
-#$btnSecureITAM.FlatStyle ="Standard"
 
 
+##Second BUTTON - Agent Password###
+$btnAgentPwd                   = New-Object system.Windows.Forms.Button
+$btnAgentPwd.BackColor         = "#82b0fa"
+$btnAgentPwd.text              = "Secure Agent WebService"
+$btnAgentPwd.width             = 90
+$btnAgentPwd.height            = 60
+$btnAgentPwd.location          = New-Object System.Drawing.Point(110,100)
+$btnAgentPwd.Font              = 'Microsoft Sans Serif,10'
+$btnAgentPwd.ForeColor         = "#ffffff"
+$btnAgentPwd.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnAgentPwd.FlatAppearance.BorderSize =0.8
+$btnAgentPwd.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnAgentPwd.TabStop=$false
 
-##Second BUTTON - TrustStore###
+
+##third BUTTON - TrustStore###
 $btnTrustStore                   = New-Object system.Windows.Forms.Button
 $btnTrustStore.BackColor         = "#82b0fa"
 $btnTrustStore.text              = "Add SSL to TrustStore"
 $btnTrustStore.width             = 90
 $btnTrustStore.height            = 60
-$btnTrustStore.location          = New-Object System.Drawing.Point(110,100)
+$btnTrustStore.location          = New-Object System.Drawing.Point(210,100)
 $btnTrustStore.Font              = 'Microsoft Sans Serif,10'
 $btnTrustStore.ForeColor         = "#ffffff"
 $btnTrustStore.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
@@ -75,25 +86,8 @@ $btnTrustStore.TabStop=$false
 
 
 
-
-##Third BUTTON - Agent Password###
-$btnAgentPwd                   = New-Object system.Windows.Forms.Button
-$btnAgentPwd.BackColor         = "#82b0fa"
-$btnAgentPwd.text              = "Secure Agent WebService"
-$btnAgentPwd.width             = 90
-$btnAgentPwd.height            = 60
-$btnAgentPwd.location          = New-Object System.Drawing.Point(210,100)
-$btnAgentPwd.Font              = 'Microsoft Sans Serif,10'
-$btnAgentPwd.ForeColor         = "#ffffff"
-$btnAgentPwd.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-$btnAgentPwd.FlatAppearance.BorderSize =0.8
-$btnAgentPwd.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
-$btnAgentPwd.TabStop=$false
-
-
 ##FORTH BUTTUN - ALL ###
 
-##Third BUTTON - Agent Password###
 $btnAllSecurityConfig                   = New-Object system.Windows.Forms.Button
 $btnAllSecurityConfig.BackColor         = "#82b0fa"
 $btnAllSecurityConfig.text              = "PlaceHolder"
