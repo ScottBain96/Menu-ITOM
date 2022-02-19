@@ -13,15 +13,9 @@ $pathAgentSelfCreator=$itomPath+"\ConsoleManagement\AgentSelfCreater\"
 $pathServerConf=$pathAgentSelfCreator+"ServerConf.ini"
 $itomAddUser=$itomPath+"\WebManagement\bin\"
 
+$itomAppRoleFile=$itomPath+"\WebManagement\standalone\configuration\application-roles.properties"
+$itomDomainRoleFile=$itomPath+"\WebManagement\Domain\configuration\application-roles.properties"
 
-
-while ($checkRequirement -ne "Sapphire"){
-
-$checkRequirement=Read-Host "USER MUST BE SET EXACTLY AS sapphire (CASE SENSITIVE) when prompted, type sapphire to confirm you have read this"
-
-
-
-}
 
 
 
@@ -42,33 +36,113 @@ Copy-Item "$pathSaphireUser" -Destination $pwd"\backups"
 
 
 
+$UserNameDefined="sapphire"
 
-Write-Host "Steps to complete by user with previously defined values."
-Write-Host "1) Select Option b (type letter b and press enter)"
-Write-Host "2) Username MUST BE sapphire (CARE CASE SENSITIVE)"
-Write-Host "3) Enter desired password"
-Write-Host "4) Confirm password if requested"
-Write-Host "5) Re-enter password when requested"
-Write-Host "6) What groups do you want... leave emtpy, press enter"
-Write-Host "7) Confirm with yes to if asked about adding user"
-Write-Host "8) For Slave host controller... answer yes."
-Write-Host "9) You will receive a secrent value (your password encrypted in base64)."
+Write-Host "`nEnter the new password for your agent web services (username will always be sapphire)`n"
 
+$credToConvert = Read-host "`Enter password" -AsSecureString
+$bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($credToConvert)
+$valuepwd = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+
+
+$ENCODED = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($valuepwd))
+
+
+Write-Host "Encoded password is $encoded "
 
 Write-Host "`nLOADING SCRIPT...`n"
 
 
-
-& $itomAddUser"add-user.ps1" 
-
+& $itomAddUser"add-user.ps1" -a -u $UserNameDefined -p $valuepwd
 
 
-Write-Host "Enter the password for sapphire user again for file configs"
 
-$credToConvert = Read-host 'enter password' -AsSecureString
-$bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($credToConvert)
-$value = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
-$ENCODED = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($value))
+Write-Host "`nCompleted JBOSS add-user script`n"
+
+
+Write-Host "`nAdding additional configuration...`n"
+
+
+##Adding the empty roles manually to the files which can't be added with -g in the add-user.ps1 script as it needs to be empty. Not sure if adding " " to the script works as the encoded value is different.
+
+##To correct and add as a function in the future##
+
+
+$str ="sapphire="
+
+
+
+
+##first file to replace/add line to##
+
+
+$search = Get-Content $itomAppRoleFile |Select-String -Pattern $str | Select-Object LineNumber, Line
+
+#handling if no matches are found#
+
+if (!($search)){
+
+$totalLines=Get-Content $itomAppRoleFile
+$LineWhereFound=$totalLines.Count -1
+$filecontent = Get-Content -Path $itomAppRoleFile
+$filecontent[$LineWhereFound] += "`r`n$str"
+Set-Content -Path $itomAppRoleFile -Value $filecontent
+Write-Host "Sucessfully added group $str to $itomAppRoleFile"
+
+}
+
+#adding to a new line at end of file to not overwrite any values#
+
+else{
+	
+$LineWhereFound=$search.LineNumber -1
+$LineToRemove=$search.Line
+$filecontent = Get-Content -Path $itomAppRoleFile
+$filecontent[$LineWhereFound] = $filecontent[$LineWhereFound] -replace $lineToRemove,$str
+Set-Content -Path $itomAppRoleFile -Value $filecontent
+Write-Host "Sucessfully added group $str to $itomAppRoleFile"
+
+
+}
+
+
+
+##Second file to replace/add line to, Again should be a single function but for now leaving like this##
+
+
+$search = Get-Content $itomDomainRoleFile |Select-String -Pattern $str | Select-Object LineNumber, Line
+
+#handling if no matches are found#
+
+if (!($search)){
+	
+$totalLines=Get-Content $itomDomainRoleFile
+$LineWhereFound=$totalLines.Count -1
+$filecontent = Get-Content -Path $itomDomainRoleFile
+$filecontent[$LineWhereFound] += "`r`n$str"
+Set-Content -Path $itomDomainRoleFile -Value $filecontent
+Write-Host "Added $str to $itomDomainRoleFile"
+
+
+}
+
+#adding to a new line at end of file to not overwrite any values#
+
+else{
+
+$LineWhereFound=$search.LineNumber -1
+$LineToRemove=$search.Line
+$filecontent = Get-Content -Path $itomDomainRoleFile
+$filecontent[$LineWhereFound] = $filecontent[$LineWhereFound] -replace $lineToRemove,$str
+Set-Content -Path $itomDomainRoleFile -Value $filecontent
+Write-Host "Added $str to $itomDomainRoleFile"
+
+
+}
+
+
+
+
 
 #Strings to search for
 
@@ -77,8 +151,7 @@ $stringAppUser="Sapphire*"
 $stringServerPWD="Password="
 
 
-###### First change, replacing the module option#####
-
+##UPDATING STANDALONE.XML#
 
 $search = Get-Content $pathStandalone |Select-String -Pattern $stringModule | Select-Object LineNumber, Line
 
@@ -86,22 +159,17 @@ $search = Get-Content $pathStandalone |Select-String -Pattern $stringModule | Se
 #Finding line in the text and - 1 because it will be used as a position in an array, since arrays start at 0...
 
 $LineWhereFound=$search.LineNumber -1
-
-
-$LineWhereFound
-
-
 $filecontent = Get-Content -Path $pathStandalone
 $filecontent[$LineWhereFound] = $filecontent[$LineWhereFound] -replace $stringModule,'<module-option name="realm" value="ApplicationRealm"/>'
-
 Set-Content -Path $pathStandalone -Value $filecontent
+
 
 Write-Host "updated standalone.xml"
 
 
 
 
-############# Second change, Updating sapphire-user file with the value of application-user file: ############
+############# Updating sapphire-user file with the value of application-user file: ############
 
 #Getting full line content to copy, setting as variable to use later.
 
@@ -120,26 +188,14 @@ $lineToRemove=$search.Line
 
 $filecontent = Get-Content -Path $pathSaphireUser
 $filecontent[$LineWhereFoundTwo] = $filecontent[$LineWhereFoundTwo] -replace $lineToRemove,$lineToCopy
-
 Set-Content -Path $pathSaphireUser -Value $filecontent
 
 Write-Host "Updated user files"
 
-#TO DO updated server.conf file for agent installer package.
+
+##UPDATING SERVER CONFIG FILE FOR AGENT PACKAGES##
 
 
-#to fix the formatting at some point for the secret result.
-Write-Host "`nsecret value bellow should match the secret value provided above, if not you will need to manually change the password reference in the following file:"
-Write-Host "(double quotes missing to be ignored)"
-Write-Host "`n<secret value=$ENCODED />"
-Write-Host "`nFile location:`n "
-
-
-$pathServerConf
-
-
-
-#$search = Get-Content $pathServerConf |Select-String -Pattern $stringServerPWD | Select-Object LineNumber, Line
 $search = Get-Content $pathServerConf |Select-String -Pattern "Password" | Select-Object LineNumber, Line 
 $lineWhereFound=$search[0].LineNumber -1
 $lineToRemove=$search[0].Line
@@ -191,7 +247,7 @@ $urltoCheck= Read-Host "Enter URL for ITOMserverURL/SapphireWS to verify credent
 
 
 
-$creds = Get-Credential
+$creds = Get-Credential "sapphire"
 
 #Not handling errors as they are helpful for the user to understand why it failed, e.g incorrect auth or not reachable.
 
