@@ -26,13 +26,44 @@ Copy-Item "$pwd/sourceXML/jboss-web.xml" -Destination "$pwd\tmp\"
 
 
 Write-Host "`nCreating XML files, will require some information:`n"
-$UserNameDefined = Read-Host "Enter username which will be used for Web Service Authentication (sapphire reserverd, DO NOT USE)"
 
+$checkRequirement=0
+
+while ($checkRequirement -eq 0){
+
+
+
+$UserNameDefined=Read-Host "`nChoose a username (sapphire is reserved, can't be used)"
+
+	if($UserNameDefined -ne "sapphire"){
+		
+		$checkRequirement++
+		$checkRequirement
+		
+	} 
+	
+	else {
+		
+		Write-Host "sapphire is not a valid username for this procedure"
+		
+	}
+
+
+
+
+}
 
 
 #Creating Group which follows format usernameAdmin
 $UserRoleDefined=$UserNameDefined+"Admin"
 
+
+
+$credToConvert = Read-host 'enter password' -AsSecureString
+$bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($credToConvert)
+$valuepwd = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+
+$valuepwd
 
 
 #Replacing lines 51 and 59 of the web.xml to include the correct user security Role. (positions are 1 less due to being array)
@@ -50,24 +81,12 @@ Write-Host "`nYou must use these values when prompted now, else the files will n
 #for now leaving like this, I will automate this input at some later stage.
 
 
-Write-Host "Steps to complete by user with previously defined values."
-Write-Host "1) Select Option b (type letter b and press enter)"
-Write-Host "2) Username MUST BE $UserNameDefined (CASE SENSITIVE)"
-Write-Host "3) Enter desired password"
-Write-Host "4) Confirm password if requested"
-Write-Host "5) Re-enter password when requested"
-Write-Host "6) What groups do you want... MUST BE: $UserRoleDefined (CASE SENSITIVE)"
-Write-Host "7) Confirm with yes to adding user"
-Write-Host "8) For Slave host controller... answer yes."
-Write-Host "9) You will receive a secrent value (your password encrypted in base64)."
-Write-host "10) Script will handle the rest of the config"
-
-Write-Host "`nLOADING SCRIPT...`n"
-
 
 #calling the JBoss add-user powershell script.
 
-& $itomAddUser"add-user.ps1" 
+& $itomAddUser"add-user.ps1" -a -u $UserNameDefined -p $valuepwd -g $UserRoleDefined
+
+
 
 #Copy config files
 
@@ -95,6 +114,13 @@ Write-Host "`nReminder username is $UserNameDefined"
 
 
 Write-Host "`nContinue with the script to confirm change is working, else you can close the script and verify on a browser`n"
+
+
+
+
+##if SapphireIMS service is running, proceed with test, else say not started##
+
+
 
 $urltoCheck= Read-Host "Enter URL for ITOMserverURL/ITAM/ to verify credentials`n `nexample: https://ifs-itom.saas.axiossystems.com/ITAM/ `n`nYour URL:"
 
