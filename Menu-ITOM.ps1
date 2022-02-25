@@ -144,6 +144,26 @@ $btnDataRest.TabStop=$false
 
 
 
+## BUTTUN - REFRESH ##
+
+$btnRefresh                   = New-Object system.Windows.Forms.Button
+$btnRefresh.BackColor         = "#82b0fa"
+$btnRefresh.text              = "Refresh Form"
+$btnRefresh.width             = 90
+$btnRefresh.height            = 60
+$btnRefresh.location          = New-Object System.Drawing.Point(410,170)
+$btnRefresh.Font              = 'Microsoft Sans Serif,10'
+$btnRefresh.ForeColor         = "#ffffff"
+$btnRefresh.Margin = 10
+$btnRefresh.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnRefresh.FlatAppearance.BorderSize = 0.8
+$btnRefresh.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnRefresh.TabStop=$false
+
+
+
+
+
 
 ## BUTTUN - Start / stop Services ###
 
@@ -172,6 +192,7 @@ $main_form.Controls.Add($btnTrustStore)
 $main_form.Controls.Add($btnTrustStoreManual)
 $main_form.Controls.Add($btnAgentPwd)
 $main_form.Controls.Add($btnDataRest)
+$main_form.Controls.Add($btnRefresh)
 $main_form.Controls.Add($btnServices)
 $main_form.Controls.Add($title)
 $main_form.Controls.Add($title2)
@@ -187,6 +208,7 @@ $btnTrustStoreManual.Add_Click({ startTrustStoreScriptManual })
 $btnAgentPwd.Add_Click({ startAgentPwd })
 $btnDataRest.Add_Click({ startDataRest })
 $btnServices.Add_Click({ startServices })
+$btnRefresh.Add_Click({ startRefresh })
 
 
 
@@ -200,6 +222,7 @@ function startSecureITAMScript{
 try{
 
 start-process powershell $pathScripts"secureITAMWebService.ps1"
+Write-Host "Started Secure ITAM Web Service process..."
 
 
 }
@@ -227,7 +250,7 @@ try{
 
 
 start-process powershell $pathScripts"addToTruststore.ps1"
-
+Write-Host "Started Add SSL to truststore process..."
 
 }
 
@@ -248,6 +271,7 @@ try{
 
 
 start-process powershell $pathScripts"addToTruststore.ps1 manual"
+Write-Host "Started Add SSL to truststore process (manual flag)..."
 
 
 }
@@ -278,7 +302,7 @@ try{
 
 
 start-process powershell $pathScripts"updateAgentPwd.ps1"
-
+Write-Host "Started Secure Agent Webservice process..."
 
 }
 
@@ -297,6 +321,34 @@ try{
 
 
 start-process powershell $pathScripts"addDataAtRest.ps1"
+Write-Host "Started Add Data at Rest process..."
+
+}
+
+catch{}
+
+}
+
+
+
+
+
+function startRefresh{
+
+try{
+
+
+#Missing adding manual option
+#Read-host "Manual or importing certificate?"
+$filesWar=Get-ChildItem -Path $itomPathWarfiles -Exclude "*.war","*.txt" | select LastWriteTime, Name | Out-String
+
+##Adding a visual text replacement, maybe there are other transitions effects available but good enough.
+$title4.text=""
+Start-Sleep -Milliseconds 50
+$title4.text=$filesWar
+
+Write-Host "Refreshing..."
+
 
 
 }
@@ -304,6 +356,11 @@ start-process powershell $pathScripts"addDataAtRest.ps1"
 catch{}
 
 }
+
+
+
+
+
 
 
 
@@ -364,8 +421,19 @@ catch{}
 try{
 	
 	
+	if ($env:JAVA_HOME){
+		Write-Host "Found JAVA_HOME directory: $env:JAVA_HOME"
+		$main_form.ShowDialog()
+		
+	}
+	else {
+		
+		Write-Host "missing JAVA_HOME environment variable, please set this up and restart powershell. Then you should be able to rerun the script."
+		PAUSE
+		
+	}
 	
-	$main_form.ShowDialog()
+	
 	
 }
 
