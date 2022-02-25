@@ -78,9 +78,8 @@ Set-Content -Path "$pwd\tmp\web.xml" -Value $filecontent
 
 
 Write-Host "`nFiles configured with Username $UserNameDefined and group name $UserRoleDefined"
-Write-Host "`nYou must use these values when prompted now, else the files will not match`n"
+
  
-#for now leaving like this, I will automate this input at some later stage.
 
 
 
@@ -121,6 +120,9 @@ Write-Host "`nContinue with the script to confirm change is working, else you ca
 
 
 ##if SapphireIMS service is running, proceed with test, else say not started##
+
+
+
 
 
 
