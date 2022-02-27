@@ -45,9 +45,23 @@ $title2.AutoSize =$true
 $title3=New-Object system.Windows.Forms.Label
 $title3.Font = 'Microsoft Sans Serif,10'
 $serviceSapphire=Get-Service -name "SapphireIMS"
-$title3.text=$serviceSapphire.Name+ " is currently "+$serviceSapphire.status
+$title3.text=$serviceSapphire.Name+ " is currently: "+$serviceSapphire.status
 $title3.location=New-Object System.Drawing.Point(10,250)
 $title3.AutoSize =$true
+
+
+#Choose script to run label##
+$title5=New-Object system.Windows.Forms.Label
+$title5.Font = 'Microsoft Sans Serif,10'
+$serviceMessageQ=Get-Service -name "SapphireIMSMessageQueue"
+$title5.text=$serviceMessageQ.Name+ " is currently: "+$serviceMessageQ.status
+$title5.location=New-Object System.Drawing.Point(10,280)
+$title5.AutoSize =$true
+
+
+
+
+
 
 
 #Choose script to run label##
@@ -55,7 +69,7 @@ $title4=New-Object system.Windows.Forms.Label
 $title4.Font = 'Microsoft Sans Serif,10'
 $filesWar=Get-ChildItem -Path $itomPathWarfiles -Exclude "*.war","*.txt" | select LastWriteTime, Name | Out-String
 $title4.text=$filesWar
-$title4.location=New-Object System.Drawing.Point(10,280)
+$title4.location=New-Object System.Drawing.Point(10,310)
 $title4.AutoSize =$true
 
 
@@ -183,6 +197,25 @@ $btnServices.TabStop=$false
 
 
 
+##     create your checkbox 
+
+
+
+
+$checkbox1 = new-object System.Windows.Forms.checkbox
+$checkbox1.Location = new-object System.Drawing.Point(10,600)
+$checkbox1.Text = "Ignore MessageQueue when stopping/starting services"
+$checkbox1.Checked = $False
+$checkbox1.AutoSize =$True
+$main_form.Controls.Add($checkbox1)  
+	
+
+
+	Write-Host $checkbox1.Checked
+
+
+
+
 
 #not sure if multiple can be added in a single line, to check at some point.
 
@@ -199,6 +232,7 @@ $main_form.Controls.Add($title2)
 $main_form.Controls.Add($title2)
 $main_form.Controls.Add($title3)
 $main_form.Controls.Add($title4)
+$main_form.Controls.Add($title5)
 
 
 
@@ -215,7 +249,7 @@ $btnRefresh.Add_Click({ startRefresh })
 $pathScripts="$pwd\scripts\"
 
 
-Write-Host "Starting UI...`nIf UI is not loading, you can still run the scripts manually"
+Write-Host "Starting UI..."
 
 function startSecureITAMScript{
 	
@@ -337,6 +371,7 @@ function startRefresh{
 
 try{
 
+Write-Host "Refreshing..."
 
 #Missing adding manual option
 #Read-host "Manual or importing certificate?"
@@ -347,9 +382,13 @@ $title4.text=""
 Start-Sleep -Milliseconds 50
 $title4.text=$filesWar
 
-Write-Host "Refreshing..."
+$serviceSapphire=Get-Service -name "SapphireIMS"
+$title3.text=$serviceSapphire.Name+ " is currently: "+$serviceSapphire.status
+$serviceMessageQ=Get-Service -name "SapphireIMSMessageQueue"
+$title5.text=$serviceMessageQ.Name+ " is currently: "+$serviceMessageQ.status
 
 
+Write-Host "`nRefresh completed`n"
 
 }
 
@@ -368,6 +407,14 @@ catch{}
 
 
 
+
+
+
+
+
+
+	
+
 function startServices{
 
 try{
@@ -376,35 +423,82 @@ try{
 
 
 
+Write-Host "status of checkbox "$checkbox1.Checked
 
 
 $filesWar=Get-ChildItem -Path $itomPathWarfiles -Exclude "*.war","*.txt" | select LastWriteTime, Name | Out-String
 
-
+$a = new-object -comobject wscript.shell
 
 #Missing adding manual option
 #Read-host "Manual or importing certificate?"
 
 
-$serviceSapphire=Get-Service -name "SapphireMySQL"
+
+$serviceSapphire=Get-Service -name "SapphireIMS"
+$serviceMessageQ=Get-Service -name "SapphireIMSMessageQueue"
+
+if (($MessageQueueExists) -and ($serviceMessageQ.status -eq "stopped") -and (!($checkbox1.Checked))){
+	
+		Write-Host "`nStarting SapphireIMSMessageQueue`n"
+		
+		##Popup messagebox with a 60s timer as the UI will be unuable during the timer
+		#$a = new-object -comobject wscript.shell
+		$b = $a.popup("Main UI will be unusable during 60 seconds due to loading queues for RabbitMQ",5,"Notify timer started")
+		
+		start-service "SapphireIMSMessageQueue"
+		Write-Host "`nStarted service SapphireIMSMessageQueue`nproceeding with 60 seconds sleep for queues to load correctly. UI will be unresponsive"
+		Start-Sleep -Seconds 3
+		Write-Host "Message queue is started, proceeding with ITOM service`n"
+		
+		
+	
+	
+}
+
+
+
 
 if ($serviceSapphire.status -eq "Stopped"){
 	
+
+
+	Start-service "SapphireIMS"
+	Write-Host "started SapphireIMS"
 	
-	Start-service "SapphireMySQL"
-	Write-Host "started SapphireMySQL"
+	startRefresh
+	$b = $a.popup("Finished starting services",5,"Notify started services")
+	$btnServices.text = "Stop Services"
+	
+	
+	
 }
+
 
 else {
 	
-	stop-service "SapphireMySQL"
+	stop-service "SapphireIMS"
 	Write-Host "stopping service"
+	
+		if ((get-service -name "SapphireIMSMessageQueue" -ErrorAction SilentlyContinue) -and (!($checkbox1.Checked))){
+		
+				Write-Host "Message Queue service is installed, stopping the service"
+				stop-service SapphireIMSMessageQueue
+				Write-Host "message queue service exists, so stopped"
+				
+				
+		}
+	startRefresh
+	$btnServices.text = "Start Services"
+	$b = $a.popup("Stopped services",5,"Notify services stopped")
+
+		
+
+	
 }
 
 
-$serviceSapphire=Get-Service -name "SapphireMySQL"
-$title3.text=$serviceSapphire.Name+ " is currently "+$serviceSapphire.status
-$title4.text=$filesWar
+
 }
 
 catch{}
@@ -420,16 +514,25 @@ catch{}
 
 try{
 	
+	$MessageQueueExists
+
+	if (get-service -name "SapphireIMSMessageQueue" -ErrorAction SilentlyContinue){
+		
+				Write-Host "Message Queue service is installed"
+				$MessageQueueExists=$true
+				
+				
+	}
 	
 	if ($env:JAVA_HOME){
 		Write-Host "Found JAVA_HOME directory: $env:JAVA_HOME"
+		Write-Host "`nMake sure this matches your current install`n"
 		$main_form.ShowDialog()
 		
 	}
 	else {
 		
-		Write-Host "missing JAVA_HOME environment variable, please set this up and restart powershell. Then you should be able to rerun the script."
-		PAUSE
+		Write-Host "Missing JAVA_HOME environment variable, please set this up and restart powershell. Then you should be able to rerun the script."
 		
 	}
 	
