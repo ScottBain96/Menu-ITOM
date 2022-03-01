@@ -3,3 +3,4 @@ backups/standalone.xml
 backups/sapphire-users.properties
 backups/application-users.properties
 tmp/web.xml
+*.log

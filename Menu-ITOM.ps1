@@ -317,8 +317,12 @@ $btnServices.Add_Click({ startServices })
 $btnRefresh.Add_Click({ startRefresh })
 $btnTestITAM.Add_Click({ startTestITAMWS })
 $btnTestAgentWS.Add_Click({ startTestAgentWS })
+$btnLogs.Add_Click({ startCopyLogs })
 
 
+
+
+$a = new-object -comobject wscript.shell
 
 
 
@@ -490,7 +494,6 @@ catch{}
 
 
 
-	
 
 function startServices{
 
@@ -505,7 +508,7 @@ Write-Host "status of checkbox "$checkbox1.Checked
 
 $filesWar=Get-ChildItem -Path $itomPathWarfiles -Exclude "*.war","*.txt" | select LastWriteTime, Name | Out-String
 
-$a = new-object -comobject wscript.shell
+
 
 #Missing adding manual option
 #Read-host "Manual or importing certificate?"
@@ -619,6 +622,43 @@ catch{}
 
 }
 
+
+
+
+function startCopyLogs{
+
+try{
+
+
+#Reusing Amans code for this as he had already done it, however it needs some fixing as it does not allow to be rerun without removing the existing log folder.
+#will fix eventually, most likely rebuilding this function.
+$b = $a.popup("If not first time running this copy-logs today, please delete log folder created before in the desktop.",60,"Pre-requisites to copy logs")
+
+
+$installed = (Get-ItemProperty -Path HKLM:SOFTWARE\Wow6432Node\Tecknodreams\Sapphire-IMS | Where { $_.WhiteLabelled -eq $software }) -ne $null #Check if the Install exist in the registry
+$path= Get-ItemPropertyValue -Path HKLM:SOFTWARE\Wow6432Node\Tecknodreams\Sapphire-IMS -Name ApplicationPath #confirm the path of the ITOM Installation and store in the the variable '#path'
+$ConLog = $path + "\ConsoleManagement\log\"
+$WebLog = $path + "\WebManagement\standalone\log\"
+$Desktopdestination= "$($env:USERPROFILE)\Desktop\log"
+write-host $Desktopdestination
+$logDestination = "$($env:USERPROFILE)\Desktop\Log"
+Copy-Item  -path $ConLog -Destination "$($env:USERPROFILE)\Desktop\Log\ConsoleLog" -Recurse
+Copy-Item  -path $WebLog -Destination "$($env:USERPROFILE)\Desktop\Log\WebLog" -Recurse
+write-host "Renaming the log based on todays date..."
+Get-Item $Desktopdestination | Rename-Item -newname {"Logs-" + $_.CreationTime.toString("dd.MM.yy")}
+
+Write-Host "Copied logs to desktop"
+
+$b = $a.popup("Copied logs to the Desktop, if errors in the Powershell terminal, remove existing log folder from desktop and try again",10,"Copied logs")
+
+}
+
+catch{
+	
+	$b = $a.popup("Failed to copy logs to the Desktop",5,"Failed to copy logs")
+}
+
+}
 
 
 
