@@ -46,7 +46,7 @@
         <property name="org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING" value="true"/>
         <property name="org.apache.tomcat.util.http.Parameters.MAX_COUNT" value="10000"/>
         <property name="org.apache.jasper.compiler.Parser.STRICT_WHITESPACE" value="false"/>
-		<property name= "org.wildfly.undertow.ALLOW_UNESCAPED_CHARACTERS_IN_URL" value = "true"/>
+        <property name="org.wildfly.undertow.ALLOW_UNESCAPED_CHARACTERS_IN_URL" value="true"/>
     </system-properties>
     <management>
         <security-realms>
@@ -276,9 +276,9 @@
             <logger category="org.hibernate">
                 <level name="ERROR"/>
                 <handlers>
-					<handler name="CONSOLE"/>
+                    <handler name="CONSOLE"/>
                     <handler name="SapphireIMS"/>
-					<handler name="FILE"/>
+                    <handler name="FILE"/>
                 </handlers>
             </logger>
             <root-logger>
@@ -310,159 +310,87 @@
         <subsystem xmlns="urn:jboss:domain:core-management:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:5.0">
             <datasources>
-                <datasource jndi-name="java:/MySqlIMSMSP" pool-name="MySqlIMSMSP" enabled="true" jta="true" use-java-context="true" use-ccm="true">
-		                    
-		    <connection-url>
-			jdbc:mysql://localhost:3306/ims?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true
-		    </connection-url>
-		    <driver>
-			com.mysql
-		    </driver>
-		    <transaction-isolation>
-			TRANSACTION_READ_COMMITTED
-		    </transaction-isolation>
-		    <pool>
-			<min-pool-size>
-			    10
-			</min-pool-size>
-			<max-pool-size>
-			    100
-			</max-pool-size>
-			<prefill>
-			    true
-			</prefill>
-			<use-strict-min>
-			    true
-			</use-strict-min>
-			<flush-strategy>
-			    FailingConnectionOnly
-			</flush-strategy>
-		    </pool>
-		    <security>
-<security-domain>imswebsecurity</security-domain>
-		    </security>
-                    <statement>
-                        <track-statements>
-                            false
-                        </track-statements>
-                    </statement>
-                    <timeout>
-                        <blocking-timeout-millis>
-                            50000
-                        </blocking-timeout-millis>
-<idle-timeout-minutes>15</idle-timeout-minutes>
-                    </timeout>
+                <datasource jta="true" jndi-name="java:/MySqlIMSMSP" pool-name="MySqlIMSMSP" enabled="true" use-java-context="true" use-ccm="true">
+                    <connection-url>jdbc:mysql://localhost:3306/ims?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true</connection-url>
+                    <driver>com.mysql</driver>
+                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                    <pool>
+                        <min-pool-size>10</min-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                        <use-strict-min>true</use-strict-min>
+                        <flush-strategy>FailingConnectionOnly</flush-strategy>
+                    </pool>
+                    <security>
+                        <security-domain>imswebsecurity</security-domain>
+                    </security>
                     <validation>
-                        <check-valid-connection-sql>
-                            select 1
-                        </check-valid-connection-sql>
+                        <check-valid-connection-sql>select 1</check-valid-connection-sql>
                     </validation>
-		</datasource>
-                <datasource jndi-name="java:/MySqlIMSAgent" pool-name="MySqlIMSAgent" enabled="true" jta="true" use-java-context="true" use-ccm="true">
-		                    
-		    <connection-url>
-			jdbc:mysql://localhost:3306/ims?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true
-		    </connection-url>
-		    <driver>
-			com.mysql
-		    </driver>
-		    <transaction-isolation>
-			TRANSACTION_READ_COMMITTED
-		    </transaction-isolation>
-		    <pool>
-			<min-pool-size>
-			    10
-			</min-pool-size>
-			<max-pool-size>
-			    100
-			</max-pool-size>
-			<prefill>
-			    true
-			</prefill>
-			<use-strict-min>
-			    true
-			</use-strict-min>
-			<flush-strategy>
-			    FailingConnectionOnly
-			</flush-strategy>
-		    </pool>
-		    <security>
-<security-domain>imsagentsecurity</security-domain>
-		    </security>
-                    <statement>
-                        <track-statements>
-                            false
-                        </track-statements>
-                    </statement>
                     <timeout>
-                        <blocking-timeout-millis>
-                            50000
-                        </blocking-timeout-millis>
-<idle-timeout-minutes>15</idle-timeout-minutes>
+                        <blocking-timeout-millis>50000</blocking-timeout-millis>
+                        <idle-timeout-minutes>15</idle-timeout-minutes>
                     </timeout>
-                    <validation>
-                        <check-valid-connection-sql>
-                            select 1
-                        </check-valid-connection-sql>
-                    </validation>
-		</datasource>
-                <datasource jndi-name="java:/ifs" pool-name="ifs" enabled="true" jta="true" use-java-context="true" use-ccm="true">
-		                    
-		    <connection-url>
-			jdbc:mysql://localhost:3306/ifs?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true
-		    </connection-url>
-		    <driver>
-			com.mysql
-		    </driver>
-		    <transaction-isolation>
-			TRANSACTION_READ_COMMITTED
-		    </transaction-isolation>
-		    <pool>
-			<min-pool-size>
-			    10
-			</min-pool-size>
-			<max-pool-size>
-			    100
-			</max-pool-size>
-			<prefill>
-			    true
-			</prefill>
-			<use-strict-min>
-			    true
-			</use-strict-min>
-			<flush-strategy>
-			    FailingConnectionOnly
-			</flush-strategy>
-		    </pool>
-		    <security>
-<security-domain>imswebsecurity</security-domain>
-		    </security>
                     <statement>
-                        <track-statements>
-                            false
-                        </track-statements>
+                        <track-statements>false</track-statements>
                     </statement>
-                    <timeout>
-                        <blocking-timeout-millis>
-                            50000
-                        </blocking-timeout-millis>
-<idle-timeout-minutes>15</idle-timeout-minutes>
-                    </timeout>
+                </datasource>
+                <datasource jta="true" jndi-name="java:/MySqlIMSAgent" pool-name="MySqlIMSAgent" enabled="true" use-java-context="true" use-ccm="true">
+                    <connection-url>jdbc:mysql://localhost:3306/ims?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true</connection-url>
+                    <driver>com.mysql</driver>
+                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                    <pool>
+                        <min-pool-size>10</min-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                        <use-strict-min>true</use-strict-min>
+                        <flush-strategy>FailingConnectionOnly</flush-strategy>
+                    </pool>
+                    <security>
+                        <security-domain>imsagentsecurity</security-domain>
+                    </security>
                     <validation>
-                        <check-valid-connection-sql>
-                            select 1
-                        </check-valid-connection-sql>
+                        <check-valid-connection-sql>select 1</check-valid-connection-sql>
                     </validation>
-		</datasource>
-		<drivers>
-		    <driver name="com.mysql" module="com.mysql">
-			<xa-datasource-class>
-			    com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
-			</xa-datasource-class>
-		    </driver>
-		</drivers>
+                    <timeout>
+                        <blocking-timeout-millis>50000</blocking-timeout-millis>
+                        <idle-timeout-minutes>15</idle-timeout-minutes>
+                    </timeout>
+                    <statement>
+                        <track-statements>false</track-statements>
+                    </statement>
+                </datasource>
+                <datasource jta="true" jndi-name="java:/ifs" pool-name="ifs" enabled="true" use-java-context="true" use-ccm="true">
+                    <connection-url>jdbc:mysql://localhost:3306/ifs?zeroDateTimeBehavior=convertToNull&amp;useOldAliasMetadataBehavior=true&amp;autoReconnect=true&amp;allowLoadLocalInfile=true</connection-url>
+                    <driver>com.mysql</driver>
+                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                    <pool>
+                        <min-pool-size>10</min-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                        <use-strict-min>true</use-strict-min>
+                        <flush-strategy>FailingConnectionOnly</flush-strategy>
+                    </pool>
+                    <security>
+                        <security-domain>imswebsecurity</security-domain>
+                    </security>
+                    <validation>
+                        <check-valid-connection-sql>select 1</check-valid-connection-sql>
+                    </validation>
+                    <timeout>
+                        <blocking-timeout-millis>50000</blocking-timeout-millis>
+                        <idle-timeout-minutes>15</idle-timeout-minutes>
+                    </timeout>
+                    <statement>
+                        <track-statements>false</track-statements>
+                    </statement>
+                </datasource>
+                <drivers>
+                    <driver name="com.mysql" module="com.mysql">
+                        <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+                    </driver>
+                </drivers>
             </datasources>
-
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
             <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000" deployment-timeout="600" runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
@@ -816,28 +744,25 @@
         <subsystem xmlns="urn:jboss:domain:undertow:10.0">
             <buffer-cache name="default"/>
             <server name="default-server">
-<http-listener name="default" socket-binding="http" max-post-size="2147483648" max-parameters="10000" redirect-socket="https" enable-http2="true" allow-unescaped-characters-in-url="true" url-charset="UTF-8" />
-                
+                <http-listener name="default" socket-binding="http" max-post-size="2147483648" max-parameters="10000" url-charset="UTF-8" allow-unescaped-characters-in-url="true" redirect-socket="https" enable-http2="true"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
+                    <location name="/SoftwareRepository" handler="SoftwareRepo"/>
+                    <location name="/PatchManagement" handler="PatchMgmt"/>
                     <filter-ref name="gzipFilter" predicate="regex(pattern='(?:application/javascript|text/css|text/html)(;.*)?', value=%{o,Content-Type}, full-match=true)"/>
-                    <!-- <filter-ref name="samesite-cookie"/>-->
                     <filter-ref name="x-Frame-Header"/>
                     <http-invoker security-realm="ApplicationRealm"/>
-					<location name="/SoftwareRepository" handler="SoftwareRepo"/>
-					 <location name="/PatchManagement" handler="PatchMgmt"/>
                 </host>
             </server>
             <servlet-container name="default">
-                <jsp-config mapped-file="false" x-powered-by="false" display-source-fragment="false" development="false"  />
-				<session-cookie http-only="true"/>
+                <jsp-config development="false" mapped-file="false" x-powered-by="false" display-source-fragment="false"/>
+                <session-cookie http-only="true"/>
                 <websockets/>
             </servlet-container>
             <handlers>
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
-				<file name="SoftwareRepo" path="..\..\ConsoleManagement\ExternalWar\SoftwareRepository.war" case-sensitive="false"/>
-				<file name="PatchMgmt" path="..\..\ConsoleManagement\ExternalWar\PatchManagement.war" case-sensitive="false"/>
-				
+                <file name="SoftwareRepo" path="..\..\ConsoleManagement\ExternalWar\SoftwareRepository.war" case-sensitive="false"/>
+                <file name="PatchMgmt" path="..\..\ConsoleManagement\ExternalWar\PatchManagement.war" case-sensitive="false"/>
             </handlers>
             <filters>
                 <response-header name="x-Frame-Header" header-name="X-Frame-Options" header-value="SAMEORIGIN"/>
@@ -871,12 +796,12 @@
         </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
-        <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:9999}"/>
-        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
-        <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
         <socket-binding name="http" port="80"/>
         <socket-binding name="https" port="8443"/>
+        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
+        <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
+        <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:9999}"/>
         <socket-binding name="osgi-http" interface="management" port="8090"/>
         <socket-binding name="remoting" port="4447"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
@@ -886,7 +811,3 @@
         </outbound-socket-binding>
     </socket-binding-group>
 </server>
-
-
-
-

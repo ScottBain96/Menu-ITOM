@@ -69,7 +69,8 @@ $title4=New-Object system.Windows.Forms.Label
 $title4.Font = 'Microsoft Sans Serif,10'
 $filesWar=Get-ChildItem -Path $itomPathWarfiles -Exclude "*.war","*.txt" | select LastWriteTime, Name | Out-String
 $title4.text=$filesWar
-$title4.location=New-Object System.Drawing.Point(10,310)
+#$title4.location=New-Object System.Drawing.Point(10,310)
+$title4.location=New-Object System.Drawing.Point(10,350)
 $title4.AutoSize =$true
 
 
@@ -124,19 +125,7 @@ $btnTrustStore.TabStop=$false
 
 
 
-## BUTTON - TrustStore MANUAL             = New-Object system.Windows.Forms.Button
-$btnTrustStoreManual            = New-Object system.Windows.Forms.Button
-$btnTrustStoreManual.BackColor         = "#82b0fa"
-$btnTrustStoreManual.text              = "Add SSL to TrustStore - Manual cert"
-$btnTrustStoreManual.width             = 90
-$btnTrustStoreManual.height            = 60
-$btnTrustStoreManual.location          = New-Object System.Drawing.Point(210,170)
-$btnTrustStoreManual.Font              = 'Microsoft Sans Serif,10'
-$btnTrustStoreManual.ForeColor         = "#ffffff"
-$btnTrustStoreManual.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-$btnTrustStoreManual.FlatAppearance.BorderSize = 0.8
-$btnTrustStoreManual.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
-$btnTrustStoreManual.TabStop=$false
+
 
 
 ## BUTTUN - ALL ###
@@ -157,22 +146,6 @@ $btnDataRest.TabStop=$false
 
 
 
-
-## BUTTUN - REFRESH ##
-
-$btnRefresh                   = New-Object system.Windows.Forms.Button
-$btnRefresh.BackColor         = "#82b0fa"
-$btnRefresh.text              = "Refresh Form"
-$btnRefresh.width             = 90
-$btnRefresh.height            = 60
-$btnRefresh.location          = New-Object System.Drawing.Point(410,170)
-$btnRefresh.Font              = 'Microsoft Sans Serif,10'
-$btnRefresh.ForeColor         = "#ffffff"
-$btnRefresh.Margin = 10
-$btnRefresh.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-$btnRefresh.FlatAppearance.BorderSize = 0.8
-$btnRefresh.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
-$btnRefresh.TabStop=$false
 
 
 
@@ -197,21 +170,114 @@ $btnServices.TabStop=$false
 
 
 
-##     create your checkbox 
+################################### SECOND ROW OF BUTTONS###################################
+
+
+## BUTTUN - TEST ITAM WebService###
+
+$btnTestITAM                   = New-Object system.Windows.Forms.Button
+$btnTestITAM.BackColor         = "#82b0fa"
+$btnTestITAM.text              = "Test ITAM Web Service"
+$btnTestITAM.width             = 90
+$btnTestITAM.height            = 60
+$btnTestITAM.location          = New-Object System.Drawing.Point(10,170)
+$btnTestITAM.Font              = 'Microsoft Sans Serif,10'
+$btnTestITAM.ForeColor         = "#ffffff"
+$btnTestITAM.Margin = 10
+$btnTestITAM.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnTestITAM.FlatAppearance.BorderSize = 0.8
+$btnTestITAM.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnTestITAM.TabStop=$false
 
 
 
+
+## BUTTUN - TEST Agent Web Service###
+
+$btnTestAgentWS                   = New-Object system.Windows.Forms.Button
+$btnTestAgentWS.BackColor         = "#82b0fa"
+$btnTestAgentWS.text              = "Test Agent Web Service"
+$btnTestAgentWS.width             = 90
+$btnTestAgentWS.height            = 60
+$btnTestAgentWS.location          = New-Object System.Drawing.Point(110,170)
+$btnTestAgentWS.Font              = 'Microsoft Sans Serif,10'
+$btnTestAgentWS.ForeColor         = "#ffffff"
+$btnTestAgentWS.Margin = 10
+$btnTestAgentWS.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnTestAgentWS.FlatAppearance.BorderSize = 0.8
+$btnTestAgentWS.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnTestAgentWS.TabStop=$false
+
+
+## BUTTON - TrustStore MANUAL             = New-Object system.Windows.Forms.Button
+$btnTrustStoreManual            = New-Object system.Windows.Forms.Button
+$btnTrustStoreManual.BackColor         = "#82b0fa"
+$btnTrustStoreManual.text              = "Add SSL to TrustStore - Manual cert"
+$btnTrustStoreManual.width             = 90
+$btnTrustStoreManual.height            = 60
+$btnTrustStoreManual.location          = New-Object System.Drawing.Point(210,170)
+$btnTrustStoreManual.Font              = 'Microsoft Sans Serif,10'
+$btnTrustStoreManual.ForeColor         = "#ffffff"
+$btnTrustStoreManual.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnTrustStoreManual.FlatAppearance.BorderSize = 0.8
+$btnTrustStoreManual.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnTrustStoreManual.TabStop=$false
+
+
+
+## BUTTON - Log folders ##
+
+$btnLogs                   = New-Object system.Windows.Forms.Button
+$btnLogs.BackColor         = "#82b0fa"
+$btnLogs.text              = "Copy logs"
+$btnLogs.width             = 90
+$btnLogs.height            = 60
+$btnLogs.location          = New-Object System.Drawing.Point(310,170)
+$btnLogs.Font              = 'Microsoft Sans Serif,10'
+$btnLogs.ForeColor         = "#ffffff"
+$btnLogs.Margin = 10
+$btnLogs.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnLogs.FlatAppearance.BorderSize = 0.8
+$btnLogs.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnLogs.TabStop=$false
+
+
+## BUTTUN - REFRESH ##
+
+$btnRefresh                   = New-Object system.Windows.Forms.Button
+$btnRefresh.BackColor         = "#82b0fa"
+$btnRefresh.text              = "Refresh Form"
+$btnRefresh.width             = 90
+$btnRefresh.height            = 60
+$btnRefresh.location          = New-Object System.Drawing.Point(410,170)
+$btnRefresh.Font              = 'Microsoft Sans Serif,10'
+$btnRefresh.ForeColor         = "#ffffff"
+$btnRefresh.Margin = 10
+$btnRefresh.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnRefresh.FlatAppearance.BorderSize = 0.8
+$btnRefresh.FlatAppearance.BorderColor = [System.Drawing.Color]::Gray
+$btnRefresh.TabStop=$false
+
+
+
+
+
+
+
+
+
+
+
+
+#CHECKBOX FOR MessageQueue ignoring
 
 $checkbox1 = new-object System.Windows.Forms.checkbox
-$checkbox1.Location = new-object System.Drawing.Point(10,600)
+$checkbox1.Location = new-object System.Drawing.Point(10,310)
+$checkbox1.Font = 'Microsoft Sans Serif,10'
 $checkbox1.Text = "Ignore MessageQueue when stopping/starting services"
-$checkbox1.Checked = $False
+$checkbox1.Checked = $True
 $checkbox1.AutoSize =$True
-$main_form.Controls.Add($checkbox1)  
-	
-
-
-	Write-Host $checkbox1.Checked
+ 
 
 
 
@@ -227,12 +293,18 @@ $main_form.Controls.Add($btnAgentPwd)
 $main_form.Controls.Add($btnDataRest)
 $main_form.Controls.Add($btnRefresh)
 $main_form.Controls.Add($btnServices)
+$main_form.Controls.Add($btnTestITAM)
+$main_form.Controls.Add($btnTestAgentWS)
+$main_form.Controls.Add($btnLogs)
+$main_form.Controls.Add($checkbox1) 
 $main_form.Controls.Add($title)
 $main_form.Controls.Add($title2)
 $main_form.Controls.Add($title2)
 $main_form.Controls.Add($title3)
 $main_form.Controls.Add($title4)
 $main_form.Controls.Add($title5)
+
+
 
 
 
@@ -243,6 +315,11 @@ $btnAgentPwd.Add_Click({ startAgentPwd })
 $btnDataRest.Add_Click({ startDataRest })
 $btnServices.Add_Click({ startServices })
 $btnRefresh.Add_Click({ startRefresh })
+$btnTestITAM.Add_Click({ startTestITAMWS })
+$btnTestAgentWS.Add_Click({ startTestAgentWS })
+
+
+
 
 
 
@@ -504,6 +581,46 @@ else {
 catch{}
 
 }
+
+
+
+
+function startTestITAMWS{
+
+try{
+
+
+
+start-process powershell $pathScripts"testITAMWebService.ps1"
+Write-Host "Started Test ITAM WebService process..."
+
+}
+
+catch{}
+
+}
+
+
+
+
+
+function startTestAgentWS{
+
+try{
+
+
+
+start-process powershell $pathScripts"testAgentWebService.ps1"
+Write-Host "Started Test Agent WebService process..."
+
+}
+
+catch{}
+
+}
+
+
+
 
 
 

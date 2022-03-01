@@ -122,30 +122,30 @@ Write-Host "`nContinue with the script to confirm change is working, else you ca
 ##if SapphireIMS service is running, proceed with test, else say not started##
 
 
+##COMMENTING FOR NOW, AS NO LONGER USING IN THE SAME SCRIPT##
 
 
 
+#$urltoCheck= Read-Host "Enter URL for ITOMserverURL/ITAM/ to verify credentials`n `nexample: https://ifs-itom.saas.axiossystems.com/ITAM/ `n`nYour URL:"
 
-$urltoCheck= Read-Host "Enter URL for ITOMserverURL/ITAM/ to verify credentials`n `nexample: https://ifs-itom.saas.axiossystems.com/ITAM/ `n`nYour URL:"
-
-Write-Host "`nEnter Credentials configured when prompted (user will be $UserNameDefined)`n"
-
+#Write-Host "`nEnter Credentials configured when prompted (user will be $UserNameDefined)`n"
 
 
-$cred = Get-Credential $UserNameDefined
+
+#$cred = Get-Credential $UserNameDefined
 
 #Not handling errors as they are helpful for the user to understand why it failed, e.g incorrect auth or not reachable.
 
-try{
+#try{
 	
-	Invoke-WebRequest $urltoCheck -Credential $cred
-	Read-Host "Successful, was able to log in to the ITAM Api with your new credentials, press enter to exit."
+#	Invoke-WebRequest $urltoCheck -Credential $cred
+#	Read-Host "Successful, was able to log in to the ITAM Api with your new credentials, press enter to exit."
 
 	
 	
-}
+#}
 
-catch {
+#catch {
 	
-	Read-Host "error encountered, please confirm manually in a browser, if not working please rerun-script."
-}
+#	Read-Host "error encountered, please confirm manually in a browser, if not working please rerun-script."
+#}

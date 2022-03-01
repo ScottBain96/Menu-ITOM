@@ -92,15 +92,16 @@ function performChange(){
 		#Confirming if the message queue service exists. If so -> stopping the service and setting a value to true for later.
 		#Could have been done faster by just using stop service but I don't want to display a not found service error. 
 		#Using the silent errors would not be good here because of possible true errors when stopping service instead of can't find. Handling scenario with this if statement.
-			
-		if (get-service -name "SapphireIMSMessageQueue" -ErrorAction SilentlyContinue){
+		#NO LONGER USED, REMOVING FOR NOW#	
 		
-				Write-Host "Message Queue service is installed, stopping the service"
-				stop-service SapphireIMSMessageQueue
-				Write-Host "message queue service exists, so stopped"
-				$MessageQueueExists=$true
+		#if (get-service -name "SapphireIMSMessageQueue" -ErrorAction SilentlyContinue){
+		
+		#		Write-Host "Message Queue service is installed, stopping the service"
+		#		stop-service SapphireIMSMessageQueue
+		#		Write-Host "message queue service exists, so stopped"
+		#		$MessageQueueExists=$true
 				
-		}
+		#}
 		
 		
 		#error message to be expected if the alias does not already exist in the trust store. Advising user that it is expected/normal.
@@ -126,22 +127,22 @@ function performChange(){
 		
 		
 		#MessageQueue needs to be started first (if there is any in the setup) and it requires around 30-45 seconds to load correctly before starting ITOM service.
-		if ($MessageQueueExists){
+		#if ($MessageQueueExists){
 			
-			Write-Host "`nStarting MessageQueue Service"
-			Start-Service SapphireIMSMessageQueue
-			Write-Host "`nWaiting 60 seconds for MessageQueue to load correctly..."
-			Start-Sleep -Seconds 60
+		#	Write-Host "`nStarting MessageQueue Service"
+		#	Start-Service SapphireIMSMessageQueue
+		#	Write-Host "`nWaiting 60 seconds for MessageQueue to load correctly..."
+		#	Start-Sleep -Seconds 60
 			
 			
-		}
+		#}
 		
 		#Finally starting ITOM service
 		
-		Write-Host "`nStarting ITOM service..."
-		Start-Service SapphireIMS
+		#Write-Host "`nStarting ITOM service..."
+		#Start-Service SapphireIMS
 		
-		Write-Host "`nServer should now be in deploying state, please wait some minutes and check the server"
+		#Write-Host "`nServer should now be in deploying state, please wait some minutes and check the server"
 
 	}
 
