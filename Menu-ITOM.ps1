@@ -45,7 +45,7 @@ $title2.AutoSize =$true
 $title3=New-Object system.Windows.Forms.Label
 $title3.Font = 'Microsoft Sans Serif,10'
 $serviceSapphire=Get-Service -name "SapphireIMS"
-$title3.text=$serviceSapphire.Name+ " is currently: "+$serviceSapphire.status
+$title3.text="SapphireIMS is currently: "+$serviceSapphire.status
 $title3.location=New-Object System.Drawing.Point(10,250)
 $title3.AutoSize =$true
 
@@ -54,7 +54,7 @@ $title3.AutoSize =$true
 $title5=New-Object system.Windows.Forms.Label
 $title5.Font = 'Microsoft Sans Serif,10'
 $serviceMessageQ=Get-Service -name "SapphireIMSMessageQueue"
-$title5.text=$serviceMessageQ.Name+ " is currently: "+$serviceMessageQ.status
+$title5.text="SapphireIMSMessageQueue is currently: "+$serviceMessageQ.status
 $title5.location=New-Object System.Drawing.Point(10,280)
 $title5.AutoSize =$true
 
@@ -464,9 +464,9 @@ Start-Sleep -Milliseconds 50
 $title4.text=$filesWar
 
 $serviceSapphire=Get-Service -name "SapphireIMS"
-$title3.text=$serviceSapphire.Name+ " is currently: "+$serviceSapphire.status
+$title3.text="SapphireIMS is currently: "+$serviceSapphire.status
 $serviceMessageQ=Get-Service -name "SapphireIMSMessageQueue"
-$title5.text=$serviceMessageQ.Name+ " is currently: "+$serviceMessageQ.status
+$title5.text="SapphireIMSMessageQueue is currently: "+$serviceMessageQ.status
 
 
 Write-Host "`nRefresh completed`n"
