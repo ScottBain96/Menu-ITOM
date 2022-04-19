@@ -23,7 +23,7 @@ Can also be used without the UI however it is limited to the main functionality 
 
 
 
-Full functionality:
+Current functionality:
 
 
 -Add an SSL certificate to a java truststore either by automatically downloading the certificate from the URL, or by downloading manually. 
