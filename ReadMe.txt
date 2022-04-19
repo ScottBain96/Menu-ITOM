@@ -1,8 +1,6 @@
 Designed with an UI as per request, however it is kept basic in design.
 
 
-
-
 To start with UI: 
 
 -Open Powershell as admin
